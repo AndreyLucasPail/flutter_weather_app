@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 
-class Api {
-  static final _instance = Api.internal();
+class ApiService {
+  static final _instance = ApiService.internal();
 
-  factory Api() => _instance;
+  factory ApiService() => _instance;
 
-  Api.internal();
+  ApiService.internal();
 
   final String apiKey = "997a824a72c60d7161e5b58d5f5dc618";
 
