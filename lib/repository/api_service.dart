@@ -14,7 +14,7 @@ class ApiService {
   Future<Map<String, dynamic>> request(String lat, String long) async {
     try {
       final String url = "https://api.openweathermap.org/data/3.0/"
-          "onecall?lat={$lat}&lon={$long}&exclude={part}&appid={$apiKey}";
+          "onecall?lat={$lat}&lon={$long}&appid={$apiKey}";
 
       final response = await _dio.get(url);
 
