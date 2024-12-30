@@ -1,6 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/viewmodel/data_viewmodel.dart';
+import 'package:flutter_weather_app/viewmodel/location_viewmodel.dart';
 import 'package:flutter_weather_app/views/home/home_view.dart';
 
 void main() {
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       blocs: [
         Bloc((i) => DataViewmodel()),
+        Bloc((i) => LocationViewmodel()),
       ],
       dependencies: const [],
       child: const MaterialApp(
