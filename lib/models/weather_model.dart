@@ -1,5 +1,5 @@
-class DataModel {
-  DataModel({
+class WeatherModel {
+  WeatherModel({
     this.lat,
     this.long,
     this.timezoneOffset,
@@ -21,7 +21,7 @@ class DataModel {
   final List<Map<String, dynamic>>? daily;
   final List<Map<String, dynamic>>? alerts;
 
-  factory DataModel.fromJson(Map<String, dynamic> json) => DataModel(
+  factory WeatherModel.fromJson(Map<String, dynamic> json) => WeatherModel(
         lat: json["lat"],
         long: json["long"],
         timezoneOffset: json["timezone_offset"],

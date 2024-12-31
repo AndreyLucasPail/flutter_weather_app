@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_weather_app/models/weather_model.dart';
+import 'package:flutter_weather_app/views/home/home_mixin.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -7,7 +9,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with HomeMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,6 +18,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget body() {
-    return SingleChildScrollView();
+    return SingleChildScrollView(
+      child: StreamBuilder<WeatherModel>(
+        stream: weatherViewmodel.weatherStream,
+        builder: (context, snapshot) {
+          return Container();
+        },
+      ),
+    );
   }
 }
