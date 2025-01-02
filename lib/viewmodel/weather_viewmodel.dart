@@ -1,7 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter_weather_app/models/weather_model.dart';
-import 'package:flutter_weather_app/repository/api_service.dart';
-import 'package:flutter_weather_app/repository/location_service.dart';
+import 'package:flutter_weather_app/service/api_service.dart';
+import 'package:flutter_weather_app/service/location_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 class WeatherViewmodel extends BlocBase {
@@ -20,9 +20,9 @@ class WeatherViewmodel extends BlocBase {
         position.longitude,
       );
 
-      final dataModel = WeatherModel.fromJson(response);
+      final weatherModel = WeatherModel.fromJson(response);
 
-      weatherController.sink.add(dataModel);
+      weatherController.sink.add(weatherModel);
     } catch (e) {
       weatherController.addError("Erro ao carregar dados: $e");
     }
