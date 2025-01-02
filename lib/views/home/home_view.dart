@@ -22,7 +22,24 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
       child: StreamBuilder<WeatherModel>(
         stream: weatherViewmodel.weatherStream,
         builder: (context, snapshot) {
-          return Container();
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Erro: ${snapshot.error}'));
+          } else {
+            final weather = snapshot.data;
+            return Center(
+              child: Column(
+                children: [
+                  Text("${weather!.timeZone}"),
+                  Text("${weather.name}"),
+                  Text("${weather.visibility}"),
+                ],
+              ),
+            );
+          }
         },
       ),
     );

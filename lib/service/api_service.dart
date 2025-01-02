@@ -9,14 +9,14 @@ class ApiService {
 
   ApiService.internal();
 
-  final String apiKey = "997a824a72c60d7161e5b58d5f5dc618";
+  final String apiKey = "4b41911090eb08416fe72aa09174cb80";
 
   final Dio _dio = Dio();
 
   Future<Map<String, dynamic>> request(double lat, double long) async {
     try {
-      final String url = "https://api.openweathermap.org/data/3.0/"
-          "onecall?lat=$lat&lon=$long&units=metric&lang=pt_br&appid=$apiKey";
+      final String url =
+          "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$long&appid=$apiKey&units=metric&lang=pt_br";
 
       final response = await _dio.get(url);
 

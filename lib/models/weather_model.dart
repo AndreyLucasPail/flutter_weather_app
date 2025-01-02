@@ -1,35 +1,50 @@
 class WeatherModel {
   WeatherModel({
-    this.lat,
-    this.long,
-    this.timezoneOffset,
+    this.base,
+    this.main,
+    this.visibility,
+    this.dt,
     this.timeZone,
-    this.current,
-    this.minutely,
-    this.hourly,
-    this.daily,
-    this.alerts,
+    this.id,
+    this.name,
+    this.cod,
+    this.coord,
+    this.weather,
+    this.wind,
+    this.rain,
+    this.clouds,
+    this.sys,
   });
 
-  final double? lat;
-  final double? long;
-  final int? timezoneOffset;
-  final String? timeZone;
-  final Map<String, dynamic>? current;
-  final List<Map<String, dynamic>>? minutely;
-  final List<Map<String, dynamic>>? hourly;
-  final List<Map<String, dynamic>>? daily;
-  final List<Map<String, dynamic>>? alerts;
+  final Map<String, dynamic>? coord;
+  final List<Map<String, dynamic>>? weather;
+  final String? base;
+  final Map<String, dynamic>? main;
+  final num? visibility;
+  final num? dt;
+  final Map<String, dynamic>? wind;
+  final Map<String, dynamic>? rain;
+  final Map<String, dynamic>? clouds;
+  final Map<String, dynamic>? sys;
+  final num? timeZone;
+  final num? id;
+  final String? name;
+  final num? cod;
 
   factory WeatherModel.fromJson(Map<String, dynamic> json) => WeatherModel(
-        lat: json["lat"],
-        long: json["long"],
-        timezoneOffset: json["timezone_offset"],
+        coord: json["coord"],
+        weather: json["weather"],
+        base: json["base"],
+        main: json["main"],
+        visibility: json["visibility"],
+        dt: json["dt"],
+        wind: json["wind"],
+        rain: json["rain"],
+        clouds: json["clouds"],
+        sys: json["sys"],
         timeZone: json["timezone"],
-        current: json["current"],
-        minutely: json["minutely"],
-        hourly: json["hourly"],
-        daily: json["daily"],
-        alerts: json["alerts"],
+        id: json["id"],
+        name: json["name"],
+        cod: json["cod"],
       );
 }

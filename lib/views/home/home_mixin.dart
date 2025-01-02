@@ -9,5 +9,6 @@ mixin HomeMixin<T extends StatefulWidget> on State<T> {
   void initState() {
     super.initState();
     weatherViewmodel = BlocProvider.getBloc<WeatherViewmodel>();
+    weatherViewmodel.getData();
   }
 }
