@@ -30,14 +30,14 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
             return Center(child: Text('Erro: ${snapshot.error}'));
           } else {
             final weather = snapshot.data;
-            return Center(
-              child: Column(
-                children: [
-                  Text("${weather!.timeZone}"),
-                  Text("${weather.name}"),
-                  Text("${weather.visibility}"),
-                ],
-              ),
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("${weather!.timeZone}"),
+                Text("${weather.name}"),
+                Text("${weather.visibility}"),
+              ],
             );
           }
         },

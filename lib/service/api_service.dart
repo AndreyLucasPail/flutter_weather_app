@@ -27,6 +27,7 @@ class ApiService {
       }
     } catch (e) {
       print('Erro ao buscar dados: $e');
+
       return {};
     }
   }

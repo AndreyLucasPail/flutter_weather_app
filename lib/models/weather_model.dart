@@ -17,7 +17,7 @@ class WeatherModel {
   });
 
   final Map<String, dynamic>? coord;
-  final List<Map<String, dynamic>>? weather;
+  final List<dynamic>? weather;
   final String? base;
   final Map<String, dynamic>? main;
   final num? visibility;
