@@ -31,6 +31,25 @@ class WeatherModel {
   final String? name;
   final num? cod;
 
+  double? get latitude => coord?["lat"] as double;
+  double? get longitude => coord?["lon"] as double;
+
+  double? get temperature => main?["temp"] as double;
+  double? get feelsLike => main?["feels_like"] as double;
+  double? get tempMin => main?["temp_min"] as double;
+  double? get tempMax => main?["temp_max"] as double;
+  double? get pressure => main?["pressure"] as double;
+  double? get humidity => main?["humidity"] as double;
+
+  double? get windSpeed => wind?["wind_speed"] as double;
+
+  double? get precipitation => rain?["1h"] as double;
+
+  double? get cloudsPercent => clouds?["all"] as double;
+
+  double? get sunRise => sys?["sunrise"] as double;
+  double? get sunSet => sys?["sunset"] as double;
+
   factory WeatherModel.fromJson(Map<String, dynamic> json) => WeatherModel(
         coord: json["coord"],
         weather: json["weather"],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/models/weather_model.dart';
+import 'package:flutter_weather_app/utils/colors/custom_colors.dart';
 import 'package:flutter_weather_app/views/home/home_mixin.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,14 +31,32 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
             return Center(child: Text('Erro: ${snapshot.error}'));
           } else {
             final weather = snapshot.data;
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text("${weather!.timeZone}"),
-                Text("${weather.name}"),
-                Text("${weather.visibility}"),
-              ],
+            return Container(
+              height: heightQ,
+              width: widthQ,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    CustomColors.blue,
+                    CustomColors.grey,
+                  ],
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text("${weather!.timeZone}"),
+                    Text("${weather.name}"),
+                    Text("${weather.visibility}"),
+                    Text("${(weather.temperature)!.toStringAsFixed(1)} ℃"),
+                  ],
+                ),
+              ),
             );
           }
         },
