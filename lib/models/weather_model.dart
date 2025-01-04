@@ -47,6 +47,7 @@ class WeatherModel {
 
   double? get cloudsPercent => clouds?["all"] as double;
 
+  String? get country => sys?["country"] as String;
   double? get sunRise => sys?["sunrise"] as double;
   double? get sunSet => sys?["sunset"] as double;
 

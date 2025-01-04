@@ -8,6 +8,8 @@ mixin HomeMixin<T extends StatefulWidget> on State<T> {
   late double heightQ = MediaQuery.of(context).size.height;
   late double widthQ = MediaQuery.of(context).size.width;
 
+  DateTime time = DateTime.now();
+
   @override
   void initState() {
     super.initState();

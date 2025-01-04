@@ -50,16 +50,77 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("${weather!.timeZone}"),
-                    Text("${weather.name}"),
-                    Text("${weather.visibility}"),
-                    Text("${(weather.temperature)!.toStringAsFixed(1)} ℃"),
+                    todayCard(weather),
                   ],
                 ),
               ),
             );
           }
         },
+      ),
+    );
+  }
+
+  Widget todayCard(WeatherModel? weather) {
+    return Container(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Text(
+                "Hoje",
+                style: TextStyle(
+                  color: CustomColors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                "${time.day}/${time.month}",
+                style: const TextStyle(
+                  color: CustomColors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                "${(weather!.temperature)!.toStringAsFixed(1)} ℃",
+                style: const TextStyle(
+                  color: CustomColors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Icon(
+                Icons.sunny,
+                color: CustomColors.yellow,
+                size: 100,
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.location_on_outlined,
+                color: CustomColors.yellow,
+              ),
+              Text(
+                "${(weather.name)!.toUpperCase()}, ${weather.country}",
+                style: const TextStyle(
+                  color: CustomColors.white,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
