@@ -15,8 +15,7 @@ class WeatherViewmodel extends BlocBase {
   Future<void> getData() async {
     try {
       final position = await locationService.getCurrentLocation();
-      print("${position.latitude}>>>>>>>>>>>>>>>>>>>>>>>>>>");
-      print("<<<<<<<<<<<<<<<<<<<<<<<<<<${position.longitude}");
+
       final response = await apiService.currentRequest(
         position.latitude,
         position.longitude,

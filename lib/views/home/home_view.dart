@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/models/current_weather_model.dart';
+import 'package:flutter_weather_app/models/five_days_model.dart';
 import 'package:flutter_weather_app/utils/colors/custom_colors.dart';
 import 'package:flutter_weather_app/views/home/home_mixin.dart';
 
@@ -130,6 +131,15 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
           ),
         ],
       ),
+    );
+  }
+
+  Widget fiveDaysCard() {
+    return StreamBuilder<FiveDaysModel>(
+      stream: fiveDaysViewmodel.fiveDaysController,
+      builder: (context, snapshot) {
+        return Container();
+      },
     );
   }
 

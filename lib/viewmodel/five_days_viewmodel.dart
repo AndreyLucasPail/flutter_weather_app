@@ -27,4 +27,10 @@ class FiveDaysViewmodel extends BlocBase {
       fiveDaysController.addError("Erro ao carregar dados: $e");
     }
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    fiveDaysController.close();
+  }
 }
