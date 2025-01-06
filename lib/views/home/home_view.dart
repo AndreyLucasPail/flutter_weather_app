@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_weather_app/models/weather_model.dart';
+import 'package:flutter_weather_app/models/current_weather_model.dart';
 import 'package:flutter_weather_app/utils/colors/custom_colors.dart';
 import 'package:flutter_weather_app/views/home/home_mixin.dart';
 
@@ -20,8 +20,8 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
 
   Widget body() {
     return SingleChildScrollView(
-      child: StreamBuilder<WeatherModel>(
-        stream: weatherViewmodel.weatherStream,
+      child: StreamBuilder<CurrentWeatherModel>(
+        stream: weatherViewmodel.currentStream,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
     );
   }
 
-  Widget todayCard(WeatherModel? weather) {
+  Widget todayCard(CurrentWeatherModel? weather) {
     return Container(
       height: heightQ * 0.3,
       decoration: BoxDecoration(
@@ -133,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
     );
   }
 
-  Widget infoGrid(WeatherModel? weather) {
+  Widget infoGrid(CurrentWeatherModel? weather) {
     return Wrap(
       spacing: 10.0,
       runSpacing: 10.0,

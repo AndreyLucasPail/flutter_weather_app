@@ -1,5 +1,5 @@
-class WeatherModel {
-  WeatherModel({
+class CurrentWeatherModel {
+  CurrentWeatherModel({
     this.base,
     this.main,
     this.visibility,
@@ -50,7 +50,8 @@ class WeatherModel {
   num? get sunRise => sys?["sunrise"] as num;
   num? get sunSet => sys?["sunset"] as num;
 
-  factory WeatherModel.fromJson(Map<String, dynamic> json) => WeatherModel(
+  factory CurrentWeatherModel.fromJson(Map<String, dynamic> json) =>
+      CurrentWeatherModel(
         coord: json["coord"],
         weather: json["weather"],
         base: json["base"],

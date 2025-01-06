@@ -13,7 +13,7 @@ class ApiService {
 
   final Dio _dio = Dio();
 
-  Future<Map<String, dynamic>> request(double lat, double long) async {
+  Future<Map<String, dynamic>> currentRequest(double lat, double long) async {
     try {
       final String url =
           "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$long&appid=$apiKey&units=metric&lang=pt_br";
@@ -28,6 +28,24 @@ class ApiService {
     } catch (e) {
       print('Erro ao buscar dados: $e');
 
+      return {};
+    }
+  }
+
+  Future<Map<String, dynamic>> fiveDaysRequest(double lat, double long) async {
+    try {
+      final String url =
+          "api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$long&appid=$apiKey";
+
+      final response = await _dio.get(url);
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        throw Exception("Failed to load data");
+      }
+    } catch (e) {
+      print('Erro ao buscar dados: $e');
       return {};
     }
   }
