@@ -51,6 +51,8 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     todayCard(weather),
+                    const SizedBox(height: 20),
+                    infoGrid(weather),
                   ],
                 ),
               ),
@@ -63,7 +65,13 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
 
   Widget todayCard(WeatherModel? weather) {
     return Container(
+      height: heightQ * 0.3,
+      decoration: BoxDecoration(
+        color: CustomColors.white.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(16.0),
+      ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -121,6 +129,37 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget infoGrid(WeatherModel? weather) {
+    return Wrap(
+      spacing: 10.0,
+      runSpacing: 10.0,
+      children: [
+        infoCard("${weather!.cloudsPercent}"),
+        infoCard("${weather.humidity}"),
+        infoCard("${weather.pressure}"),
+        infoCard("${weather.sunRise}"),
+        infoCard("${weather.sunSet}"),
+      ],
+    );
+  }
+
+  Widget infoCard(String text) {
+    return Container(
+      height: 160,
+      width: widthQ * 0.44,
+      decoration: BoxDecoration(
+        color: CustomColors.white.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 20,
+        ),
       ),
     );
   }

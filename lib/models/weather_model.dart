@@ -31,25 +31,24 @@ class WeatherModel {
   final String? name;
   final num? cod;
 
-  double? get latitude => coord?["lat"] as double;
-  double? get longitude => coord?["lon"] as double;
+  num? get latitude => coord?["lat"] as num;
+  num? get longitude => coord?["lon"] as num;
 
-  double? get temperature => main?["temp"] as double;
-  double? get feelsLike => main?["feels_like"] as double;
-  double? get tempMin => main?["temp_min"] as double;
-  double? get tempMax => main?["temp_max"] as double;
-  double? get pressure => main?["pressure"] as double;
-  double? get humidity => main?["humidity"] as double;
+  num? get temperature => main?["temp"] as num;
+  num? get feelsLike => main?["feels_like"] as num;
+  num? get tempMin => main?["temp_min"] as num;
+  num? get tempMax => main?["temp_max"] as num;
+  num? get pressure => main?["pressure"] as num;
+  num? get humidity => main?["humidity"] as num;
 
-  double? get windSpeed => wind?["wind_speed"] as double;
+  num? get windSpeed => wind?["wind_speed"] as num;
 
-  double? get precipitation => rain?["1h"] as double;
+  num? get precipitation => rain?["1h"] as num;
 
-  double? get cloudsPercent => clouds?["all"] as double;
-
+  num? get cloudsPercent => clouds?["all"] as num;
   String? get country => sys?["country"] as String;
-  double? get sunRise => sys?["sunrise"] as double;
-  double? get sunSet => sys?["sunset"] as double;
+  num? get sunRise => sys?["sunrise"] as num;
+  num? get sunSet => sys?["sunset"] as num;
 
   factory WeatherModel.fromJson(Map<String, dynamic> json) => WeatherModel(
         coord: json["coord"],
