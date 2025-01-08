@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/models/current_weather_model.dart';
 import 'package:flutter_weather_app/models/five_days_model.dart';
 import 'package:flutter_weather_app/utils/colors/custom_colors.dart';
-import 'package:flutter_weather_app/views/home/home_mixin.dart';
+import 'package:flutter_weather_app/mixin/home_mixin.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                     const SizedBox(height: 40),
                     todayCard(weather),
                     const SizedBox(height: 20),
-                    fiveDaysCard(),
+                    fiveDaysCards(),
                     const SizedBox(height: 20),
                     infoGrid(weather),
                   ],
@@ -137,12 +137,11 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
     );
   }
 
-  Widget fiveDaysCard() {
+  Widget fiveDaysCards() {
     return StreamBuilder<FiveDaysModel>(
       stream: fiveDaysViewmodel.fiveDaysController,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          print("ERRO>>${snapshot.error}");
           return Center(
             child: Text(
               "Erro ao carregar previsão: ${snapshot.error}",
@@ -152,30 +151,60 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
         } else {
           final fiveDays = snapshot.data;
 
-          return Container(
-            height: heightQ * 0.3,
-            width: widthQ,
-            decoration: BoxDecoration(
-              color: CustomColors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(16.0),
-            ),
-            child: Column(
-              children: [
-                const Text(
-                  "Previsão para os proximos 5 dias",
-                  style: TextStyle(
-                    color: CustomColors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+          return Column(
+            children: [
+              Container(
+                height: heightQ * 0.3,
+                width: widthQ,
+                decoration: BoxDecoration(
+                  color: CustomColors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(16.0),
                 ),
-                fiveDaysInfo(fiveDays!),
-              ],
-            ),
+                child: Column(
+                  children: [
+                    const Text(
+                      "Previsão de 3 em 3 horas",
+                      style: TextStyle(
+                        color: CustomColors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    threeHourInfo(fiveDays!),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              Container(
+                height: heightQ * 0.3,
+                width: widthQ,
+                decoration: BoxDecoration(
+                  color: CustomColors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: Column(
+                  children: [
+                    const Text(
+                      "Previsão para os proximos 5 dias",
+                      style: TextStyle(
+                        color: CustomColors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    fiveDaysInfo(fiveDays),
+                  ],
+                ),
+              ),
+            ],
           );
         }
       },
     );
+  }
+
+  Widget threeHourInfo(FiveDaysModel fiveDays) {
+    return Container();
   }
 
   Widget fiveDaysInfo(FiveDaysModel fiveDays) {
@@ -183,15 +212,60 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: fiveDays.list!.map((days) {
-          return Container(
-            width: 20,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.0),
-            ),
-            child: Column(
-              children: [
-                Text(days.dtTxt ?? "N/A"),
-              ],
+          List<String> parts = days.dtTxt!.split(" ");
+          final date = parts[0];
+          final time = parts[1];
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2.5),
+            child: Container(
+              height: heightQ * 0.25,
+              width: 70,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                border: Border.all(
+                  color: CustomColors.green,
+                ),
+              ),
+              child: Column(
+                children: [
+                  const Text(
+                    "hoje",
+                    style: TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    date,
+                    style: const TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    time.substring(0, 5),
+                    style: const TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    "${(days.temperature)!.toStringAsFixed(0)}°",
+                    style: const TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    "${days.dt}",
+                    style: const TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         }).toList(),

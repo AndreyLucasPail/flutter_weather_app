@@ -35,7 +35,7 @@ class ApiService {
   Future<Map<String, dynamic>> fiveDaysRequest(double lat, double long) async {
     try {
       final String url =
-          "https://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$long&appid=$apiKey";
+          "https://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$long&units=metric&lang=pt_br&appid=$apiKey";
 
       final response = await _dio.get(url);
 

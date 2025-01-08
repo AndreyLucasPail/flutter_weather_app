@@ -15,13 +15,12 @@ class FiveDaysViewmodel extends BlocBase {
   Future<void> getData() async {
     try {
       final position = await locationService.getCurrentLocation();
-      print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<${position.latitude}");
-      print("${position.longitude}>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
       final response = await apiService.fiveDaysRequest(
         position.latitude,
         position.longitude,
       );
-      print("RESPONSE=> $response");
+
       final fiveDaysModel = FiveDaysModel.fromJson(response);
       fiveDaysController.sink.add(fiveDaysModel);
     } catch (e) {
