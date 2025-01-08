@@ -150,11 +150,13 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
           );
         } else {
           final fiveDays = snapshot.data;
+          final todayForecast = fiveDays!.getTodayForecast();
 
           return Column(
             children: [
               Container(
-                height: heightQ * 0.3,
+                padding: const EdgeInsets.all(8.0),
+                height: heightQ * 0.35,
                 width: widthQ,
                 decoration: BoxDecoration(
                   color: CustomColors.white.withOpacity(0.2),
@@ -170,13 +172,14 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    threeHourInfo(fiveDays!),
+                    threeHourInfo(todayForecast),
                   ],
                 ),
               ),
               const SizedBox(height: 20),
               Container(
-                height: heightQ * 0.3,
+                padding: const EdgeInsets.all(8.0),
+                height: heightQ * 0.35,
                 width: widthQ,
                 decoration: BoxDecoration(
                   color: CustomColors.white.withOpacity(0.2),
@@ -203,23 +206,19 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
     );
   }
 
-  Widget threeHourInfo(FiveDaysModel fiveDays) {
-    return Container();
-  }
-
-  Widget fiveDaysInfo(FiveDaysModel fiveDays) {
+  Widget threeHourInfo(List<DayForecast> dayForecast) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: fiveDays.list!.map((days) {
-          List<String> parts = days.dtTxt!.split(" ");
+        children: dayForecast.map((day) {
+          List<String> parts = day.dtTxt!.split(" ");
           final date = parts[0];
           final time = parts[1];
 
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 2.5),
             child: Container(
-              height: heightQ * 0.25,
+              height: heightQ * 0.299,
               width: 70,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
@@ -237,7 +236,73 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                     ),
                   ),
                   Text(
-                    date,
+                    date.substring(5),
+                    style: const TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    time.substring(0, 5),
+                    style: const TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    "${(day.temperature)!.toStringAsFixed(0)}°",
+                    style: const TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    "${day.dt}",
+                    style: const TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget fiveDaysInfo(FiveDaysModel fiveDays) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: fiveDays.list!.map((days) {
+          List<String> parts = days.dtTxt!.split(" ");
+          final date = parts[0];
+          final time = parts[1];
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2.5),
+            child: Container(
+              height: heightQ * 0.299,
+              width: 70,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                border: Border.all(
+                  color: CustomColors.green,
+                ),
+              ),
+              child: Column(
+                children: [
+                  const Text(
+                    "hoje",
+                    style: TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    date.substring(5),
                     style: const TextStyle(
                       color: CustomColors.white,
                       fontSize: 14,

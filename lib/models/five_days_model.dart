@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class FiveDaysModel {
   FiveDaysModel({
     this.city,
@@ -27,6 +29,13 @@ class FiveDaysModel {
         sunRise: json["sunrise"],
         sunSet: json["sunset"],
       );
+
+  List<DayForecast> getTodayForecast() {
+    final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    return list!
+        .where((forecast) => forecast.dtTxt!.startsWith(today))
+        .toList();
+  }
 }
 
 class DayForecast {
