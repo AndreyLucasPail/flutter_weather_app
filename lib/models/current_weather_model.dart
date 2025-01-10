@@ -41,7 +41,8 @@ class CurrentWeatherModel {
   num? get pressure => main?["pressure"] as num;
   num? get humidity => main?["humidity"] as num;
 
-  num? get windSpeed => wind?["wind_speed"] as num;
+  num? get windSpeed => wind?["speed"] as num;
+  num? get windDirec => wind?["deg"] as num;
 
   num? get precipitation => rain?["1h"] as num;
 
