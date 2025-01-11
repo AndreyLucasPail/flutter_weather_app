@@ -30,7 +30,7 @@ class FiveDaysModel {
 
   List<DayForecast> getPerHourForecast() {
     final List<DayForecast> perHourList = list!
-        .where((forecast) => forecast.dtTxt!.endsWith("21:00:00"))
+        .where((forecast) => forecast.dtTxt!.endsWith("12:00:00"))
         .toList();
 
     return perHourList;
