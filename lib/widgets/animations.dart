@@ -18,9 +18,13 @@ class ShimmerAnimation extends StatelessWidget {
         ),
         child: Column(
           children: [
-            shimmerContainer(100, 300),
+            shimmerContainer(40, 300),
             const SizedBox(height: 20),
-            shimmerContainer(100, 300),
+            shimmerContainer(40, 300),
+            const SizedBox(height: 20),
+            shimmerContainer(40, 300),
+            const SizedBox(height: 20),
+            shimmerContainer(40, 300),
           ],
         ),
       ),
@@ -29,8 +33,8 @@ class ShimmerAnimation extends StatelessWidget {
 
   Widget shimmerContainer(double height, double width) {
     return Shimmer.fromColors(
-      baseColor: CustomColors.grey,
-      highlightColor: CustomColors.white,
+      baseColor: CustomColors.white,
+      highlightColor: CustomColors.blue,
       child: Container(
         height: height,
         width: width,

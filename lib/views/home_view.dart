@@ -4,6 +4,7 @@ import 'package:flutter_weather_app/models/five_days_model.dart';
 import 'package:flutter_weather_app/utils/colors/custom_colors.dart';
 import 'package:flutter_weather_app/mixin/home_mixin.dart';
 import 'package:flutter_weather_app/widgets/animations.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -58,8 +59,6 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                     todayInfosCard(weather),
                     const SizedBox(height: 20),
                     fiveDaysCards(),
-                    const SizedBox(height: 20),
-                    infoGrid(weather),
                   ],
                 ),
               ),
@@ -283,6 +282,8 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                   ],
                 ),
               ),
+              const SizedBox(height: 20),
+              lineGraphic(fiveDays.list!),
             ],
           );
         }
@@ -419,34 +420,24 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
     );
   }
 
-  Widget infoGrid(CurrentWeatherModel? weather) {
-    return Wrap(
-      spacing: 10.0,
-      runSpacing: 10.0,
-      children: [
-        infoCard("${weather!.cloudsPercent}"),
-        infoCard("${weather.humidity}"),
-        infoCard("${weather.pressure}"),
-        infoCard("${weather.sunRise}"),
-        infoCard("${weather.sunSet}"),
-      ],
-    );
-  }
-
-  Widget infoCard(String text) {
-    return Container(
-      height: 160,
-      width: widthQ * 0.44,
-      decoration: BoxDecoration(
-        color: CustomColors.white.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(16.0),
+  Widget lineGraphic(List<DayForecast> data) {
+    return SfCartesianChart(
+      primaryXAxis: NumericAxis(
+        title: AxisTitle(text: "X"),
       ),
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontSize: 20,
+      primaryYAxis: NumericAxis(),
+      series: [
+        SplineSeries<DayForecast, num>(
+          dataSource: data,
+          xValueMapper: (DayForecast day, _) => day.time,
+          yValueMapper: (DayForecast day, _) => day.tempMax,
         ),
-      ),
+        SplineSeries<DayForecast, num>(
+          dataSource: data,
+          xValueMapper: (DayForecast day, _) => day.time,
+          yValueMapper: (DayForecast day, _) => day.tempMin,
+        ),
+      ],
     );
   }
 }

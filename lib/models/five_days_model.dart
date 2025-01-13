@@ -77,6 +77,8 @@ class DayForecast {
   num? get deg => wind!["deg"];
   num? get gust => wind!["gust"];
 
+  num? get time => dateAndTime();
+
   factory DayForecast.fromJson(Map<String, dynamic> json) => DayForecast(
         dt: json["dt"],
         main: json["main"],
@@ -89,4 +91,13 @@ class DayForecast {
         sys: json["sys"],
         dtTxt: json["dt_txt"],
       );
+
+  num dateAndTime() {
+    final List<String> parts = dtTxt!.split(" ");
+    final text = parts[1].substring(1, 2);
+    print(
+        "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<$text>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+    return num.tryParse(text)!;
+  }
 }

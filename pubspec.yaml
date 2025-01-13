@@ -21,6 +21,7 @@ dependencies:
   bloc_pattern: ^3.0.1
   rxdart: ^0.28.0
   shimmer: ^3.0.0
+  syncfusion_flutter_charts: ^27.2.2
   
 
 dev_dependencies:
