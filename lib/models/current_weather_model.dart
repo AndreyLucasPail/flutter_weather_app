@@ -34,6 +34,8 @@ class CurrentWeatherModel {
   num? get latitude => coord?["lat"] as num;
   num? get longitude => coord?["lon"] as num;
 
+  String? get description => weather![0]["description"] as String;
+
   num? get temperature => main?["temp"] as num;
   num? get feelsLike => main?["feels_like"] as num;
   num? get tempMin => main?["temp_min"] as num;

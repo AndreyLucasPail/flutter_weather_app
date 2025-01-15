@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_weather_app/models/current_weather_model.dart';
 import 'package:flutter_weather_app/models/five_days_model.dart';
 import 'package:flutter_weather_app/utils/colors/custom_colors.dart';
@@ -55,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                   children: [
                     const SizedBox(height: 40),
                     today(weather),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 60),
                     todayInfosCard(weather),
                     const SizedBox(height: 20),
                     fiveDaysCards(),
@@ -71,21 +72,22 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
 
   Widget today(CurrentWeatherModel? weather) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Text(
-              "Hoje",
-              style: TextStyle(
+            Text(
+              weather!.name!,
+              style: const TextStyle(
                 color: CustomColors.white,
-                fontSize: 20,
+                fontSize: 30,
                 fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(width: 20),
             Text(
-              "${time.day}/${time.month}",
+              "${time.day}/${time.month}/${time.year}",
               style: const TextStyle(
                 color: CustomColors.white,
                 fontSize: 20,
@@ -94,25 +96,52 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
             ),
           ],
         ),
+        Container(
+          height: 1,
+          width: MediaQuery.of(context).size.width * 0.6,
+          color: CustomColors.white,
+        ),
+        Text(
+          weather.description!,
+          style: const TextStyle(
+            color: CustomColors.grey400,
+            fontSize: 20,
+          ),
+        ),
+        const SizedBox(height: 40),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            SizedBox(
+              height: 100,
+              width: 100,
+              child: SvgPicture.asset("assets/sun.svg"),
+            ),
             Column(
               children: [
                 Text(
-                  "${(weather!.temperature)!.toStringAsFixed(1)} ℃",
+                  "${(weather.temperature)!.toStringAsFixed(1)} ℃",
                   style: const TextStyle(
                     color: CustomColors.white,
-                    fontSize: 30,
+                    fontSize: 50,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                Text(
+                  "Sensação de ${(weather.feelsLike)!.toStringAsFixed(1)} ℃",
+                  style: const TextStyle(
+                    color: CustomColors.white,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     Text(
                       "△ ${weather.tempMax}",
                       style: const TextStyle(
                         color: CustomColors.white,
+                        fontSize: 16,
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -120,32 +149,12 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                       "▽ ${weather.tempMin}",
                       style: const TextStyle(
                         color: CustomColors.white,
+                        fontSize: 15,
                       ),
                     ),
                   ],
                 ),
               ],
-            ),
-            const Icon(
-              Icons.sunny,
-              color: CustomColors.yellow,
-              size: 100,
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.location_on_outlined,
-              color: CustomColors.yellow,
-            ),
-            Text(
-              "${(weather.name)!.toUpperCase()}, ${weather.country}",
-              style: const TextStyle(
-                color: CustomColors.white,
-                fontSize: 16,
-              ),
             ),
           ],
         ),
@@ -166,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
         ),
         children: [
           gridCard(Icons.air, "vento", "${weather!.windSpeed!} m/s"),
-          gridCard(Icons.speed_outlined, "pressão", "${weather.pressure!}"),
+          gridCard(Icons.speed_outlined, "pressão", "${weather.pressure!} mb"),
           gridCard(Icons.invert_colors_on, "Humidade", "${weather.humidity!}%"),
           gridCard(
             Icons.visibility_outlined,
@@ -203,14 +212,14 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
           data,
           style: const TextStyle(
             color: CustomColors.white,
-            fontSize: 14,
+            fontSize: 16,
           ),
         ),
         Text(
           type,
           style: const TextStyle(
             color: CustomColors.white,
-            fontSize: 14,
+            fontSize: 16,
           ),
         ),
       ],
@@ -297,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
       child: Row(
         children: dayForecast!.list!.map((day) {
           List<String> parts = day.dtTxt!.split(" ");
-          final date = parts[0];
+          final dateP = parts[0];
           final time = parts[1];
 
           return Padding(
@@ -308,7 +317,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
                 border: Border.all(
-                  color: CustomColors.green,
+                  color: date == dateP ? CustomColors.blue : CustomColors.white,
                 ),
               ),
               child: Column(
@@ -317,28 +326,36 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                     "hoje",
                     style: TextStyle(
                       color: CustomColors.white,
-                      fontSize: 14,
+                      fontSize: 16,
                     ),
                   ),
                   Text(
-                    date.substring(5),
+                    dateP.substring(5),
                     style: const TextStyle(
                       color: CustomColors.white,
-                      fontSize: 14,
+                      fontSize: 16,
                     ),
                   ),
                   Text(
                     time.substring(0, 5),
                     style: const TextStyle(
                       color: CustomColors.white,
-                      fontSize: 14,
+                      fontSize: 16,
                     ),
                   ),
                   Text(
-                    "${(day.temperature)!.toStringAsFixed(0)}°",
+                    "${(day.tempMax)!.toStringAsFixed(0)}° △",
                     style: const TextStyle(
                       color: CustomColors.white,
-                      fontSize: 16,
+                      fontSize: 20,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    "${(day.tempMin)!.toStringAsFixed(0)}° ▽",
+                    style: const TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 20,
                     ),
                   ),
                   Text(
@@ -363,8 +380,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
       child: Row(
         children: dayForecast!.map((days) {
           List<String> parts = days.dtTxt!.split(" ");
-          final date = parts[0];
-          // final time = parts[1];
+          final dateP = parts[0];
 
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 2.5),
@@ -374,13 +390,13 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
                 border: Border.all(
-                  color: CustomColors.green,
+                  color: CustomColors.white,
                 ),
               ),
               child: Column(
                 children: [
                   Text(
-                    date.substring(5),
+                    dateP.substring(5),
                     style: const TextStyle(
                       color: CustomColors.white,
                       fontSize: 14,
@@ -388,7 +404,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    "${(days.tempMax)!.toStringAsFixed(1)}°",
+                    "${(days.tempMax)!.toStringAsFixed(1)}° △",
                     style: const TextStyle(
                       color: CustomColors.white,
                       fontSize: 16,
@@ -396,7 +412,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                   ),
                   const Spacer(),
                   Text(
-                    "${(days.tempMin)!.toStringAsFixed(1)}°",
+                    "${(days.tempMin)!.toStringAsFixed(1)}° ▽",
                     style: const TextStyle(
                       color: CustomColors.white,
                       fontSize: 16,
@@ -422,17 +438,16 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
 
   Widget lineGraphic(List<DayForecast> data) {
     return SfCartesianChart(
-      primaryXAxis: NumericAxis(
+      primaryXAxis: const NumericAxis(
         title: AxisTitle(text: "X"),
       ),
-      primaryYAxis: NumericAxis(),
       series: [
-        SplineSeries<DayForecast, num>(
+        LineSeries<DayForecast, num>(
           dataSource: data,
           xValueMapper: (DayForecast day, _) => day.time,
           yValueMapper: (DayForecast day, _) => day.tempMax,
         ),
-        SplineSeries<DayForecast, num>(
+        LineSeries<DayForecast, num>(
           dataSource: data,
           xValueMapper: (DayForecast day, _) => day.time,
           yValueMapper: (DayForecast day, _) => day.tempMin,

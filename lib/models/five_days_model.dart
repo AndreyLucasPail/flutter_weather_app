@@ -95,8 +95,6 @@ class DayForecast {
   num dateAndTime() {
     final List<String> parts = dtTxt!.split(" ");
     final text = parts[1].substring(1, 2);
-    print(
-        "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<$text>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
     return num.tryParse(text)!;
   }

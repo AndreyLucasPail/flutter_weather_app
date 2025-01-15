@@ -16,28 +16,19 @@ class ShimmerAnimation extends StatelessWidget {
           color: CustomColors.white.withOpacity(0.2),
           borderRadius: BorderRadius.circular(16.0),
         ),
-        child: Column(
-          children: [
-            shimmerContainer(40, 300),
-            const SizedBox(height: 20),
-            shimmerContainer(40, 300),
-            const SizedBox(height: 20),
-            shimmerContainer(40, 300),
-            const SizedBox(height: 20),
-            shimmerContainer(40, 300),
-          ],
-        ),
+        child: shimmerContainer(context),
       ),
     );
   }
 
-  Widget shimmerContainer(double height, double width) {
+  Widget shimmerContainer(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: CustomColors.white,
       highlightColor: CustomColors.blue,
+      period: const Duration(milliseconds: 500),
       child: Container(
-        height: height,
-        width: width,
+        height: MediaQuery.of(context).size.height * 0.3,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: CustomColors.black,
           borderRadius: BorderRadius.circular(16.0),
