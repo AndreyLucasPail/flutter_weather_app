@@ -9,8 +9,10 @@ class WeatherViewmodel extends BlocBase {
   final LocationService locationService = LocationService();
 
   final currentController = BehaviorSubject<CurrentWeatherModel>();
+  final byCityController = BehaviorSubject<CurrentWeatherModel>();
 
   Stream<CurrentWeatherModel> get currentStream => currentController.stream;
+  Stream<CurrentWeatherModel> get byCity => byCityController.stream;
 
   Future<void> getData() async {
     try {
@@ -30,9 +32,21 @@ class WeatherViewmodel extends BlocBase {
     }
   }
 
+  Future<void> getDataByCity(String city) async {
+    try {
+      final response = await apiService.byCityRequest(city);
+
+      final byCityModel = CurrentWeatherModel.fromJson(response);
+      byCityController.sink.add(byCityModel);
+    } catch (e) {
+      byCityController.addError("Erro ao carregar de cidades dados: $e");
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
     currentController.close();
+    byCityController.close();
   }
 }

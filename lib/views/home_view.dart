@@ -5,7 +5,6 @@ import 'package:flutter_weather_app/models/five_days_model.dart';
 import 'package:flutter_weather_app/utils/colors/custom_colors.dart';
 import 'package:flutter_weather_app/mixin/home_mixin.dart';
 import 'package:flutter_weather_app/widgets/animations.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -170,6 +169,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: GridView(
+        physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
         ),
@@ -292,7 +292,6 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                 ),
               ),
               const SizedBox(height: 20),
-              lineGraphic(fiveDays.list!),
             ],
           );
         }
@@ -433,26 +432,6 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
           );
         }).toList(),
       ),
-    );
-  }
-
-  Widget lineGraphic(List<DayForecast> data) {
-    return SfCartesianChart(
-      primaryXAxis: const NumericAxis(
-        title: AxisTitle(text: "X"),
-      ),
-      series: [
-        LineSeries<DayForecast, num>(
-          dataSource: data,
-          xValueMapper: (DayForecast day, _) => day.time,
-          yValueMapper: (DayForecast day, _) => day.tempMax,
-        ),
-        LineSeries<DayForecast, num>(
-          dataSource: data,
-          xValueMapper: (DayForecast day, _) => day.time,
-          yValueMapper: (DayForecast day, _) => day.tempMin,
-        ),
-      ],
     );
   }
 }
