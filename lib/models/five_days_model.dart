@@ -62,6 +62,8 @@ class DayForecast {
   final Map<String, dynamic>? sys;
   final String? dtTxt;
 
+  String? get climate => weather![0]["main"] as String;
+
   num? get temperature => main!["temp"];
   num? get feelsLike => main!["feels_like"];
   num? get tempMin => main!["temp_min"];

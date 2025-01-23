@@ -59,6 +59,8 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                     todayInfosCard(weather),
                     const SizedBox(height: 20),
                     fiveDaysCards(),
+                    const SizedBox(height: 20),
+                    fiveDaysCards2(),
                   ],
                 ),
               ),
@@ -114,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
             SizedBox(
               height: 100,
               width: 100,
-              child: SvgPicture.asset("assets/sun.svg"),
+              child: SvgPicture.asset(currentClimate(weather.climate!)),
             ),
             Column(
               children: [
@@ -426,6 +428,107 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                     ),
                   ),
                   const SizedBox(height: 10),
+                ],
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget fiveDaysCards2() {
+    return StreamBuilder<FiveDaysModel>(
+      stream: fiveDaysViewmodel.fiveDaysController,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting ||
+            snapshot.data == null) {
+          return const ShimmerAnimation();
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text(
+              "Erro ao carregar previsão: ${snapshot.error}",
+              style: const TextStyle(color: Colors.red),
+            ),
+          );
+        } else {
+          final fiveDays = snapshot.data;
+          final todayForecast = fiveDays!.getPerHourForecast();
+
+          return Container(
+            padding: const EdgeInsets.all(8.0),
+            height: heightQ * 0.25,
+            width: widthQ,
+            decoration: BoxDecoration(
+              color: CustomColors.black,
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: Column(
+              children: [
+                const Text(
+                  "Previsão para os proximos 5 dias",
+                  style: TextStyle(
+                    color: CustomColors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                fiveDaysInfo2(todayForecast),
+              ],
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  Widget fiveDaysInfo2(List<DayForecast>? dayForecast) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: dayForecast!.map((days) {
+          List<String> parts = days.dtTxt!.split(" ");
+          final time = parts[1];
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Container(
+              height: heightQ * 0.18,
+              width: 80,
+              decoration: BoxDecoration(
+                color: CustomColors.black,
+                borderRadius: BorderRadius.circular(30.0),
+                boxShadow: const [
+                  BoxShadow(
+                    color: CustomColors.red,
+                    blurRadius: 16,
+                    blurStyle: BlurStyle.normal,
+                    offset: Offset(-10.0, -100.0),
+                  )
+                ],
+                border: Border.all(
+                  color: CustomColors.white,
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.sunny, color: CustomColors.white),
+                  Text(
+                    "${(days.temperature)!.toStringAsFixed(1)}°C",
+                    style: const TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    "${time.substring(1, 5)}H",
+                    style: const TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 16,
+                    ),
+                  ),
                 ],
               ),
             ),
