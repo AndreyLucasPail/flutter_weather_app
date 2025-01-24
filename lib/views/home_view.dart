@@ -250,50 +250,42 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
           final fiveDays = snapshot.data;
           final todayForecast = fiveDays!.getPerHourForecast();
 
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          return Column(
+            children: [
+              const SizedBox(height: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Previsão para os proximos 5 dias",
+                    style: TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  line(),
+                  fiveDaysInfo(todayForecast),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
                   children: [
                     const Text(
-                      "Previsão para os proximos 5 dias",
+                      "Previsão de 3 em 3 horas",
                       style: TextStyle(
                         color: CustomColors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    fiveDaysInfo(todayForecast),
+                    threeHourInfo(fiveDays),
                   ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  height: heightQ * 0.35,
-                  width: widthQ,
-                  decoration: BoxDecoration(
-                    color: CustomColors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  child: Column(
-                    children: [
-                      const Text(
-                        "Previsão de 3 em 3 horas",
-                        style: TextStyle(
-                          color: CustomColors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      threeHourInfo(fiveDays),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-              ],
-            ),
+              ),
+              const SizedBox(height: 20),
+            ],
           );
         }
       },
@@ -433,6 +425,14 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
           }).toList(),
         ),
       ),
+    );
+  }
+
+  Widget line() {
+    return Container(
+      height: 1,
+      width: widthQ * 0.9,
+      color: CustomColors.grey,
     );
   }
 }
