@@ -37,32 +37,30 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
             height: heightQ,
             width: widthQ,
             decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  CustomColors.blue,
-                  CustomColors.grey,
-                ],
-              ),
+              color: CustomColors.nigthBlue,
+              // gradient: LinearGradient(
+              //   begin: Alignment.topCenter,
+              //   end: Alignment.bottomCenter,
+              //   colors: [
+              //     CustomColors.blue,
+              //     CustomColors.grey,
+              //   ],
+              // ),
             ),
             child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 40),
-                    today(weather),
-                    const SizedBox(height: 60),
-                    todayInfosCard(weather),
-                    const SizedBox(height: 20),
-                    fiveDaysCards(),
-                    const SizedBox(height: 20),
-                    fiveDaysCards2(),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 40),
+                  today(weather),
+                  const SizedBox(height: 60),
+                  todayInfosCard(weather),
+                  const SizedBox(height: 20),
+                  fiveDaysCards(),
+                  const SizedBox(height: 20),
+                  fiveDaysCards2(),
+                ],
               ),
             ),
           );
@@ -72,129 +70,137 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
   }
 
   Widget today(CurrentWeatherModel? weather) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              weather!.name!,
-              style: const TextStyle(
-                color: CustomColors.white,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                weather!.name!,
+                style: const TextStyle(
+                  color: CustomColors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(width: 20),
-            Text(
-              "${time.day}/${time.month}/${time.year}",
-              style: const TextStyle(
-                color: CustomColors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              const SizedBox(width: 20),
+              Text(
+                "${time.day}/${time.month}/${time.year}",
+                style: const TextStyle(
+                  color: CustomColors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
-        ),
-        Container(
-          height: 1,
-          width: MediaQuery.of(context).size.width * 0.6,
-          color: CustomColors.white,
-        ),
-        Text(
-          weather.description!,
-          style: const TextStyle(
-            color: CustomColors.grey400,
-            fontSize: 20,
+            ],
           ),
-        ),
-        const SizedBox(height: 40),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SizedBox(
-              height: 100,
-              width: 100,
-              child: SvgPicture.asset(currentClimate(weather.climate!)),
+          Container(
+            height: 1,
+            width: MediaQuery.of(context).size.width * 0.6,
+            color: CustomColors.white,
+          ),
+          Text(
+            weather.description!,
+            style: const TextStyle(
+              color: CustomColors.grey400,
+              fontSize: 20,
             ),
-            Column(
-              children: [
-                Text(
-                  "${(weather.temperature)!.toStringAsFixed(1)} ℃",
-                  style: const TextStyle(
-                    color: CustomColors.white,
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  "Sensação de ${(weather.feelsLike)!.toStringAsFixed(1)} ℃",
-                  style: const TextStyle(
-                    color: CustomColors.white,
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Text(
-                      "△ ${weather.tempMax}",
-                      style: const TextStyle(
-                        color: CustomColors.white,
-                        fontSize: 16,
-                      ),
+          ),
+          const SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                height: 100,
+                width: 100,
+                child: SvgPicture.asset(currentClimate(weather.climate!)),
+              ),
+              Column(
+                children: [
+                  Text(
+                    "${(weather.temperature)!.toStringAsFixed(1)} ℃",
+                    style: const TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(width: 10),
-                    Text(
-                      "▽ ${weather.tempMin}",
-                      style: const TextStyle(
-                        color: CustomColors.white,
-                        fontSize: 15,
-                      ),
+                  ),
+                  Text(
+                    "Sensação de ${(weather.feelsLike)!.toStringAsFixed(1)} ℃",
+                    style: const TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 16,
                     ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Text(
+                        "△ ${weather.tempMax}",
+                        style: const TextStyle(
+                          color: CustomColors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        "▽ ${weather.tempMin}",
+                        style: const TextStyle(
+                          color: CustomColors.white,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
   Widget todayInfosCard(CurrentWeatherModel? weather) {
-    return Container(
-      height: heightQ * 0.3,
-      decoration: BoxDecoration(
-        color: CustomColors.white.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      child: GridView(
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        height: heightQ * 0.3,
+        decoration: BoxDecoration(
+          color: CustomColors.white.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(16.0),
         ),
-        children: [
-          gridCard(Icons.air, "vento", "${weather!.windSpeed!} m/s"),
-          gridCard(Icons.speed_outlined, "pressão", "${weather.pressure!} mb"),
-          gridCard(Icons.invert_colors_on, "Humidade", "${weather.humidity!}%"),
-          gridCard(
-            Icons.visibility_outlined,
-            "Visibilidade",
-            "${weather.visibility! / 1000} Km",
+        child: GridView(
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
           ),
-          gridCard(
-            Icons.cloud_outlined,
-            "Nuvens",
-            "${weather.cloudsPercent!}%",
-          ),
-          gridCard(
-            Icons.air,
-            windDirection(weather.windDirec!),
-            "${weather.windDirec!}°",
-          ),
-        ],
+          children: [
+            gridCard(Icons.air, "vento", "${weather!.windSpeed!} m/s"),
+            gridCard(
+                Icons.speed_outlined, "pressão", "${weather.pressure!} mb"),
+            gridCard(
+                Icons.invert_colors_on, "Humidade", "${weather.humidity!}%"),
+            gridCard(
+              Icons.visibility_outlined,
+              "Visibilidade",
+              "${weather.visibility! / 1000} Km",
+            ),
+            gridCard(
+              Icons.cloud_outlined,
+              "Nuvens",
+              "${weather.cloudsPercent!}%",
+            ),
+            gridCard(
+              Icons.air,
+              windDirection(weather.windDirec!),
+              "${weather.windDirec!}°",
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -246,55 +252,58 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
           final fiveDays = snapshot.data;
           final todayForecast = fiveDays!.getPerHourForecast();
 
-          return Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                height: heightQ * 0.35,
-                width: widthQ,
-                decoration: BoxDecoration(
-                  color: CustomColors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                child: Column(
-                  children: [
-                    const Text(
-                      "Previsão de 3 em 3 horas",
-                      style: TextStyle(
-                        color: CustomColors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  height: heightQ * 0.35,
+                  width: widthQ,
+                  decoration: BoxDecoration(
+                    color: CustomColors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Previsão de 3 em 3 horas",
+                        style: TextStyle(
+                          color: CustomColors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    threeHourInfo(fiveDays),
-                  ],
+                      threeHourInfo(fiveDays),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                height: heightQ * 0.35,
-                width: widthQ,
-                decoration: BoxDecoration(
-                  color: CustomColors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                child: Column(
-                  children: [
-                    const Text(
-                      "Previsão para os proximos 5 dias",
-                      style: TextStyle(
-                        color: CustomColors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                const SizedBox(height: 20),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  height: heightQ * 0.35,
+                  width: widthQ,
+                  decoration: BoxDecoration(
+                    color: CustomColors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Previsão para os proximos 5 dias",
+                        style: TextStyle(
+                          color: CustomColors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    fiveDaysInfo(todayForecast),
-                  ],
+                      fiveDaysInfo(todayForecast),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-            ],
+                const SizedBox(height: 20),
+              ],
+            ),
           );
         }
       },
@@ -455,27 +464,19 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
           final fiveDays = snapshot.data;
           final todayForecast = fiveDays!.getPerHourForecast();
 
-          return Container(
-            padding: const EdgeInsets.all(8.0),
-            height: heightQ * 0.25,
-            width: widthQ,
-            decoration: BoxDecoration(
-              color: CustomColors.black,
-              borderRadius: BorderRadius.circular(16.0),
-            ),
-            child: Column(
-              children: [
-                const Text(
-                  "Previsão para os proximos 5 dias",
-                  style: TextStyle(
-                    color: CustomColors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Previsão para os proximos 5 dias",
+                style: TextStyle(
+                  color: CustomColors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                fiveDaysInfo2(todayForecast),
-              ],
-            ),
+              ),
+              fiveDaysInfo2(todayForecast),
+            ],
           );
         }
       },
@@ -485,55 +486,64 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
   Widget fiveDaysInfo2(List<DayForecast>? dayForecast) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: Row(
-        children: dayForecast!.map((days) {
-          List<String> parts = days.dtTxt!.split(" ");
-          final time = parts[1];
+      child: SizedBox(
+        height: heightQ * 0.3,
+        child: Row(
+          children: dayForecast!.map((days) {
+            List<String> parts = days.dtTxt!.split(" ");
+            final time = parts[1];
 
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Container(
-              height: heightQ * 0.18,
-              width: 80,
-              decoration: BoxDecoration(
-                color: CustomColors.black,
-                borderRadius: BorderRadius.circular(30.0),
-                boxShadow: const [
-                  BoxShadow(
-                    color: CustomColors.red,
-                    blurRadius: 16,
-                    blurStyle: BlurStyle.normal,
-                    offset: Offset(-10.0, -100.0),
-                  )
-                ],
-                border: Border.all(
-                  color: CustomColors.white,
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Container(
+                height: heightQ * 0.15,
+                width: 75,
+                decoration: BoxDecoration(
+                  color: CustomColors.nigthBlue,
+                  borderRadius: BorderRadius.circular(35.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: CustomColors.white.withOpacity(0.3),
+                      blurRadius: 15,
+                      blurStyle: BlurStyle.normal,
+                      offset: const Offset(-10.0, -10.0),
+                    ),
+                    BoxShadow(
+                      color: CustomColors.black.withOpacity(0.4),
+                      blurRadius: 15,
+                      blurStyle: BlurStyle.normal,
+                      offset: const Offset(10.0, 10.0),
+                    ),
+                  ],
+                  // border: Border.all(
+                  //   color: CustomColors.white,
+                  // ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.sunny, color: CustomColors.white),
+                    Text(
+                      "${(days.temperature)!.toStringAsFixed(1)}°C",
+                      style: const TextStyle(
+                        color: CustomColors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      "${time.substring(1, 5)}H",
+                      style: const TextStyle(
+                        color: CustomColors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.sunny, color: CustomColors.white),
-                  Text(
-                    "${(days.temperature)!.toStringAsFixed(1)}°C",
-                    style: const TextStyle(
-                      color: CustomColors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                  Text(
-                    "${time.substring(1, 5)}H",
-                    style: const TextStyle(
-                      color: CustomColors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }).toList(),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
