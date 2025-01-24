@@ -79,7 +79,10 @@ class DayForecast {
   num? get deg => wind!["deg"];
   num? get gust => wind!["gust"];
 
-  num? get time => dateAndTime();
+  Map<String, dynamic>? get format => formattedDateAndTime();
+  String? get formatDate => format!["formatDate"];
+  String? get date => format!["date"];
+  String? get time => format!["time"];
 
   factory DayForecast.fromJson(Map<String, dynamic> json) => DayForecast(
         dt: json["dt"],
@@ -94,10 +97,19 @@ class DayForecast {
         dtTxt: json["dt_txt"],
       );
 
-  num dateAndTime() {
+  Map<String, dynamic> formattedDateAndTime() {
     final List<String> parts = dtTxt!.split(" ");
-    final text = parts[1].substring(1, 2);
+    final date = parts[0]; //yyyy-MM-dd
+    final time = parts[1].substring(0, 5); //15:00
+    final formatDate =
+        "${date.substring(8, 10)}/${date.substring(5, 7)}"; //dd/MM
 
-    return num.tryParse(text)!;
+    Map<String, dynamic> format = {
+      "date": date,
+      "time": time,
+      "formatDate": formatDate,
+    };
+
+    return format;
   }
 }

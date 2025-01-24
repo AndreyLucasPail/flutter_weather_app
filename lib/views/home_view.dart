@@ -58,8 +58,6 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                   todayInfosCard(weather),
                   const SizedBox(height: 20),
                   fiveDaysCards(),
-                  const SizedBox(height: 20),
-                  fiveDaysCards2(),
                 ],
               ),
             ),
@@ -256,6 +254,21 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
+                const SizedBox(height: 20),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Previsão para os proximos 5 dias",
+                      style: TextStyle(
+                        color: CustomColors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    fiveDaysInfo(todayForecast),
+                  ],
+                ),
                 Container(
                   padding: const EdgeInsets.all(8.0),
                   height: heightQ * 0.35,
@@ -279,29 +292,6 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  height: heightQ * 0.35,
-                  width: widthQ,
-                  decoration: BoxDecoration(
-                    color: CustomColors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  child: Column(
-                    children: [
-                      const Text(
-                        "Previsão para os proximos 5 dias",
-                        style: TextStyle(
-                          color: CustomColors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      fiveDaysInfo(todayForecast),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
               ],
             ),
           );
@@ -315,10 +305,6 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: dayForecast!.list!.map((day) {
-          List<String> parts = day.dtTxt!.split(" ");
-          final dateP = parts[0];
-          final time = parts[1];
-
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 2.5),
             child: Container(
@@ -327,7 +313,8 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
                 border: Border.all(
-                  color: date == dateP ? CustomColors.blue : CustomColors.white,
+                  color:
+                      date == day.date ? CustomColors.blue : CustomColors.white,
                 ),
               ),
               child: Column(
@@ -340,14 +327,14 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                     ),
                   ),
                   Text(
-                    dateP.substring(5),
+                    day.formatDate!,
                     style: const TextStyle(
                       color: CustomColors.white,
                       fontSize: 16,
                     ),
                   ),
                   Text(
-                    time.substring(0, 5),
+                    day.time!,
                     style: const TextStyle(
                       color: CustomColors.white,
                       fontSize: 16,
@@ -387,112 +374,10 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
   Widget fiveDaysInfo(List<DayForecast>? dayForecast) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: Row(
-        children: dayForecast!.map((days) {
-          List<String> parts = days.dtTxt!.split(" ");
-          final dateP = parts[0];
-
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2.5),
-            child: Container(
-              height: heightQ * 0.29,
-              width: 90,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.0),
-                border: Border.all(
-                  color: CustomColors.white,
-                ),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    dateP.substring(5),
-                    style: const TextStyle(
-                      color: CustomColors.white,
-                      fontSize: 14,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    "${(days.tempMax)!.toStringAsFixed(1)}° △",
-                    style: const TextStyle(
-                      color: CustomColors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    "${(days.tempMin)!.toStringAsFixed(1)}° ▽",
-                    style: const TextStyle(
-                      color: CustomColors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    "${days.speed} Km/h",
-                    style: const TextStyle(
-                      color: CustomColors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                ],
-              ),
-            ),
-          );
-        }).toList(),
-      ),
-    );
-  }
-
-  Widget fiveDaysCards2() {
-    return StreamBuilder<FiveDaysModel>(
-      stream: fiveDaysViewmodel.fiveDaysController,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting ||
-            snapshot.data == null) {
-          return const ShimmerAnimation();
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text(
-              "Erro ao carregar previsão: ${snapshot.error}",
-              style: const TextStyle(color: Colors.red),
-            ),
-          );
-        } else {
-          final fiveDays = snapshot.data;
-          final todayForecast = fiveDays!.getPerHourForecast();
-
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Previsão para os proximos 5 dias",
-                style: TextStyle(
-                  color: CustomColors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              fiveDaysInfo2(todayForecast),
-            ],
-          );
-        }
-      },
-    );
-  }
-
-  Widget fiveDaysInfo2(List<DayForecast>? dayForecast) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
       child: SizedBox(
         height: heightQ * 0.3,
         child: Row(
           children: dayForecast!.map((days) {
-            List<String> parts = days.dtTxt!.split(" ");
-            final time = parts[1];
-
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Container(
@@ -515,15 +400,18 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                       offset: const Offset(10.0, 10.0),
                     ),
                   ],
-                  // border: Border.all(
-                  //   color: CustomColors.white,
-                  // ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.sunny, color: CustomColors.white),
+                    SizedBox(
+                      height: 40,
+                      width: 30,
+                      child: SvgPicture.asset(
+                        currentClimate(days.climate!),
+                      ),
+                    ),
                     Text(
                       "${(days.temperature)!.toStringAsFixed(1)}°C",
                       style: const TextStyle(
@@ -532,7 +420,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                       ),
                     ),
                     Text(
-                      "${time.substring(1, 5)}H",
+                      days.formatDate!,
                       style: const TextStyle(
                         color: CustomColors.white,
                         fontSize: 16,
