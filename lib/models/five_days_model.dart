@@ -63,6 +63,7 @@ class DayForecast {
   final String? dtTxt;
 
   String? get climate => weather![0]["main"] as String;
+  String? get description => weather![0]["description"] as String;
 
   num? get temperature => main!["temp"];
   num? get feelsLike => main!["feels_like"];

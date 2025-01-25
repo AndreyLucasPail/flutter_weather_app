@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_weather_app/models/current_weather_model.dart';
@@ -280,6 +281,8 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    line(),
+                    const SizedBox(height: 20),
                     threeHourInfo(fiveDays),
                   ],
                 ),
@@ -298,10 +301,14 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
       child: Row(
         children: dayForecast!.list!.map((day) {
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2.5),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Container(
               height: heightQ * 0.29,
-              width: 90,
+              width: 120,
+              padding: const EdgeInsets.symmetric(
+                vertical: 6.0,
+                horizontal: 4.0,
+              ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
                 border: Border.all(
@@ -311,20 +318,6 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
               ),
               child: Column(
                 children: [
-                  const Text(
-                    "hoje",
-                    style: TextStyle(
-                      color: CustomColors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                  Text(
-                    day.formatDate!,
-                    style: const TextStyle(
-                      color: CustomColors.white,
-                      fontSize: 16,
-                    ),
-                  ),
                   Text(
                     day.time!,
                     style: const TextStyle(
@@ -332,27 +325,58 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                       fontSize: 16,
                     ),
                   ),
-                  Text(
-                    "${(day.tempMax)!.toStringAsFixed(0)}° △",
-                    style: const TextStyle(
-                      color: CustomColors.white,
-                      fontSize: 20,
+                  SizedBox(
+                    height: 40,
+                    width: 30,
+                    child: SvgPicture.asset(
+                      currentClimate(day.climate!),
                     ),
                   ),
-                  const Spacer(),
+                  const SizedBox(height: 8),
                   Text(
-                    "${(day.tempMin)!.toStringAsFixed(0)}° ▽",
-                    style: const TextStyle(
-                      color: CustomColors.white,
-                      fontSize: 20,
-                    ),
-                  ),
-                  Text(
-                    "${day.speed} Km/h",
+                    day.formatDate!,
                     style: const TextStyle(
                       color: CustomColors.white,
                       fontSize: 16,
                     ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "${(day.temperature)!.toStringAsFixed(0)}°C",
+                    style: const TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                  Flexible(
+                    child: AutoSizeText(
+                      "${day.description}",
+                      textAlign: TextAlign.center,
+                      minFontSize: 15,
+                      style: const TextStyle(
+                        color: CustomColors.grey,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.air_outlined,
+                        color: CustomColors.white,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        "${day.speed} Km/h",
+                        style: const TextStyle(
+                          color: CustomColors.white,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -367,11 +391,11 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: SizedBox(
-        height: heightQ * 0.3,
+        height: heightQ * 0.25,
         child: Row(
           children: dayForecast!.map((days) {
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Container(
                 height: heightQ * 0.15,
                 width: 75,
@@ -380,15 +404,15 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                   borderRadius: BorderRadius.circular(35.0),
                   boxShadow: [
                     BoxShadow(
-                      color: CustomColors.white.withOpacity(0.3),
+                      color: CustomColors.white.withOpacity(0.25),
                       blurRadius: 15,
-                      blurStyle: BlurStyle.normal,
+                      spreadRadius: 2,
                       offset: const Offset(-10.0, -10.0),
                     ),
                     BoxShadow(
                       color: CustomColors.black.withOpacity(0.4),
                       blurRadius: 15,
-                      blurStyle: BlurStyle.normal,
+                      spreadRadius: 2,
                       offset: const Offset(10.0, 10.0),
                     ),
                   ],
