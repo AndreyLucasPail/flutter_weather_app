@@ -39,14 +39,6 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
             width: widthQ,
             decoration: const BoxDecoration(
               color: CustomColors.nigthBlue,
-              // gradient: LinearGradient(
-              //   begin: Alignment.topCenter,
-              //   end: Alignment.bottomCenter,
-              //   colors: [
-              //     CustomColors.blue,
-              //     CustomColors.grey,
-              //   ],
-              // ),
             ),
             child: SingleChildScrollView(
               child: Column(
@@ -59,6 +51,9 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                   todayInfosCard(weather),
                   const SizedBox(height: 20),
                   fiveDaysCards(),
+                  const SizedBox(height: 20),
+                  bottomText(),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -87,13 +82,15 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
               ),
               const SizedBox(width: 20),
               Text(
-                "${time.day}/${time.month}/${time.year}",
+                dateBr,
                 style: const TextStyle(
                   color: CustomColors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              const Spacer(),
+              popUpTextfield(),
             ],
           ),
           Container(
@@ -457,6 +454,82 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
       height: 1,
       width: widthQ * 0.9,
       color: CustomColors.grey,
+    );
+  }
+
+  Widget bottomText() {
+    return const Padding(
+      padding: EdgeInsets.all(16.0),
+      child: AutoSizeText(
+        "© 2012 — 2025 OpenWeather ® All rights reserved",
+        style: TextStyle(
+          color: CustomColors.white,
+          fontSize: 14,
+        ),
+      ),
+    );
+  }
+
+  Widget popUpTextfield() {
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              isExpanded == !isExpanded;
+            });
+          },
+          child: Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+              color: CustomColors.nigthBlue,
+              boxShadow: [
+                BoxShadow(
+                  color: CustomColors.white.withOpacity(0.25),
+                  blurRadius: 15,
+                  spreadRadius: 2,
+                  offset: const Offset(-10.0, -10.0),
+                ),
+                BoxShadow(
+                  color: CustomColors.black.withOpacity(0.4),
+                  blurRadius: 15,
+                  spreadRadius: 2,
+                  offset: const Offset(10.0, 10.0),
+                ),
+              ],
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.search,
+              color: CustomColors.white,
+            ),
+          ),
+        ),
+        Positioned(
+          top: 100,
+          left: 20,
+          right: 20,
+          child: AnimatedContainer(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(
+                isExpanded ? 20 : 25,
+              ),
+            ),
+            duration: const Duration(milliseconds: 500),
+            width: isExpanded ? widthQ - 100 : 50,
+            height: isExpanded ? 300 : 50,
+            child: isExpanded
+                ? Center(
+                    child: Text(
+                      "Conteúdo do Container",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  )
+                : null,
+          ),
+        )
+      ],
     );
   }
 }
