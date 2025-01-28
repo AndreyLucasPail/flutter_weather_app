@@ -69,29 +69,39 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                weather!.name!,
-                style: const TextStyle(
-                  color: CustomColors.white,
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+          SizedBox(
+            height: 60,
+            child: Stack(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      weather!.name!,
+                      style: const TextStyle(
+                        color: CustomColors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Text(
+                      dateBr,
+                      style: const TextStyle(
+                        color: CustomColors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Spacer(),
+                  ],
                 ),
-              ),
-              const SizedBox(width: 20),
-              Text(
-                dateBr,
-                style: const TextStyle(
-                  color: CustomColors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                Positioned(
+                  right: 4,
+                  child: popUpTextfield(),
                 ),
-              ),
-              const Spacer(),
-              popUpTextfield(),
-            ],
+              ],
+            ),
           ),
           Container(
             height: 1,
@@ -105,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
               fontSize: 20,
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -471,65 +481,40 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
   }
 
   Widget popUpTextfield() {
-    return Stack(
-      children: [
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              isExpanded == !isExpanded;
-            });
-          },
-          child: Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-              color: CustomColors.nigthBlue,
-              boxShadow: [
-                BoxShadow(
-                  color: CustomColors.white.withOpacity(0.25),
-                  blurRadius: 15,
-                  spreadRadius: 2,
-                  offset: const Offset(-10.0, -10.0),
-                ),
-                BoxShadow(
-                  color: CustomColors.black.withOpacity(0.4),
-                  blurRadius: 15,
-                  spreadRadius: 2,
-                  offset: const Offset(10.0, 10.0),
-                ),
-              ],
-              shape: BoxShape.circle,
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isExpanded = !isExpanded;
+        });
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+        height: isExpanded ? 60 : 50,
+        width: isExpanded ? widthQ * 0.7 : 50,
+        decoration: BoxDecoration(
+          color: CustomColors.nigthBlue,
+          boxShadow: [
+            BoxShadow(
+              color: CustomColors.white.withOpacity(0.25),
+              blurRadius: 15,
+              spreadRadius: 2,
+              offset: const Offset(-10.0, -10.0),
             ),
-            child: const Icon(
-              Icons.search,
-              color: CustomColors.white,
+            BoxShadow(
+              color: CustomColors.black.withOpacity(0.4),
+              blurRadius: 15,
+              spreadRadius: 2,
+              offset: const Offset(10.0, 10.0),
             ),
-          ),
+          ],
+          shape: isExpanded ? BoxShape.rectangle : BoxShape.circle,
         ),
-        Positioned(
-          top: 100,
-          left: 20,
-          right: 20,
-          child: AnimatedContainer(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(
-                isExpanded ? 20 : 25,
-              ),
-            ),
-            duration: const Duration(milliseconds: 500),
-            width: isExpanded ? widthQ - 100 : 50,
-            height: isExpanded ? 300 : 50,
-            child: isExpanded
-                ? Center(
-                    child: Text(
-                      "Conteúdo do Container",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                  )
-                : null,
-          ),
-        )
-      ],
+        child: const Icon(
+          Icons.search,
+          color: CustomColors.white,
+        ),
+      ),
     );
   }
 }

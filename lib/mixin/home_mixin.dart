@@ -15,7 +15,7 @@ mixin HomeMixin<T extends StatefulWidget> on State<T> {
   final date = DateFormat('yyyy-MM-dd').format(DateTime.now());
   final dateBr = DateFormat('dd/MM/yyyy').format(DateTime.now());
 
-  final bool isExpanded = false;
+  bool isExpanded = false;
 
   @override
   void initState() {
