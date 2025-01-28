@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                 ),
                 Positioned(
                   right: 4,
-                  child: popUpTextfield(),
+                  child: popUpContainer(),
                 ),
               ],
             ),
@@ -480,7 +480,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
     );
   }
 
-  Widget popUpTextfield() {
+  Widget popUpContainer() {
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -491,7 +491,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
         height: isExpanded ? 60 : 50,
-        width: isExpanded ? widthQ * 0.7 : 50,
+        width: isExpanded ? widthQ * 0.8 : 50,
         decoration: BoxDecoration(
           color: CustomColors.nigthBlue,
           boxShadow: [
@@ -508,13 +508,58 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
               offset: const Offset(10.0, 10.0),
             ),
           ],
-          shape: isExpanded ? BoxShape.rectangle : BoxShape.circle,
+          //shape: isExpanded ? BoxShape.rectangle : BoxShape.circle,
+          borderRadius: BorderRadius.circular(isExpanded ? 16.0 : 25.0),
         ),
-        child: const Icon(
-          Icons.search,
-          color: CustomColors.white,
-        ),
+        child: isExpanded
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: searchInput(),
+              )
+            : const Icon(
+                Icons.search,
+                color: CustomColors.white,
+              ),
       ),
+    );
+  }
+
+  Widget searchInput() {
+    return Row(
+      children: [
+        Flexible(
+          child: TextFormField(
+            controller: searchController,
+            textInputAction: TextInputAction.search,
+            onFieldSubmitted: (value) {
+              searchController.clear();
+              setState(() {
+                isExpanded = !isExpanded;
+              });
+            },
+            decoration: const InputDecoration(
+              hintText: "Pesquisar cidade",
+              hintStyle: TextStyle(
+                color: CustomColors.white,
+              ),
+            ),
+            style: const TextStyle(
+              color: CustomColors.white,
+            ),
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            setState(() {
+              isExpanded = !isExpanded;
+            });
+          },
+          icon: const Icon(
+            Icons.close_rounded,
+            color: CustomColors.white,
+          ),
+        ),
+      ],
     );
   }
 }

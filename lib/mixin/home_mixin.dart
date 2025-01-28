@@ -15,6 +15,8 @@ mixin HomeMixin<T extends StatefulWidget> on State<T> {
   final date = DateFormat('yyyy-MM-dd').format(DateTime.now());
   final dateBr = DateFormat('dd/MM/yyyy').format(DateTime.now());
 
+  final TextEditingController searchController = TextEditingController();
+
   bool isExpanded = false;
 
   @override
