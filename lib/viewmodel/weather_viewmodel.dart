@@ -8,11 +8,13 @@ class WeatherViewmodel extends BlocBase {
   final ApiService apiService = ApiService();
   final LocationService locationService = LocationService();
 
-  final currentController = BehaviorSubject<CurrentWeatherModel>();
-  final byCityController = BehaviorSubject<CurrentWeatherModel>();
+  final _currentController = BehaviorSubject<CurrentWeatherModel>();
+  final _byCityController = BehaviorSubject<CurrentWeatherModel>();
+  final _isExpandedController = BehaviorSubject<bool>.seeded(false);
 
-  Stream<CurrentWeatherModel> get currentStream => currentController.stream;
-  Stream<CurrentWeatherModel> get byCity => byCityController.stream;
+  Stream<CurrentWeatherModel> get currentStream => _currentController.stream;
+  Stream<CurrentWeatherModel> get byCityStream => _byCityController.stream;
+  Stream<bool> get isExpandedStream => _isExpandedController.stream;
 
   Future<void> getData() async {
     try {
@@ -26,9 +28,9 @@ class WeatherViewmodel extends BlocBase {
 
       final weatherModel = CurrentWeatherModel.fromJson(response);
 
-      currentController.sink.add(weatherModel);
+      _currentController.sink.add(weatherModel);
     } catch (e) {
-      currentController.addError("Erro ao carregar dados: $e");
+      _currentController.addError("Erro ao carregar dados: $e");
     }
   }
 
@@ -37,16 +39,22 @@ class WeatherViewmodel extends BlocBase {
       final response = await apiService.byCityRequest(city);
 
       final byCityModel = CurrentWeatherModel.fromJson(response);
-      byCityController.sink.add(byCityModel);
+      _byCityController.sink.add(byCityModel);
     } catch (e) {
-      byCityController.addError("Erro ao carregar de cidades dados: $e");
+      _byCityController.addError("Erro ao carregar de cidades dados: $e");
     }
+  }
+
+  void toggledExpansion() {
+    bool current = _isExpandedController.value;
+    _isExpandedController.sink.add(!current);
   }
 
   @override
   void dispose() {
     super.dispose();
-    currentController.close();
-    byCityController.close();
+    _currentController.close();
+    _byCityController.close();
+    _isExpandedController.close();
   }
 }

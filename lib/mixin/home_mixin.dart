@@ -17,8 +17,6 @@ mixin HomeMixin<T extends StatefulWidget> on State<T> {
 
   final TextEditingController searchController = TextEditingController();
 
-  bool isExpanded = false;
-
   @override
   void initState() {
     super.initState();

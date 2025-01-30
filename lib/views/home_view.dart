@@ -5,10 +5,13 @@ import 'package:flutter_weather_app/models/current_weather_model.dart';
 import 'package:flutter_weather_app/models/five_days_model.dart';
 import 'package:flutter_weather_app/utils/colors/custom_colors.dart';
 import 'package:flutter_weather_app/mixin/home_mixin.dart';
+import 'package:flutter_weather_app/views/city_view.dart';
 import 'package:flutter_weather_app/widgets/animations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  static const tag = "/homeView";
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -481,46 +484,53 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
   }
 
   Widget popUpContainer() {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          isExpanded = !isExpanded;
-        });
+    return StreamBuilder<bool>(
+      stream: weatherViewmodel.isExpandedStream,
+      initialData: false,
+      builder: (context, snapshot) {
+        bool isExpanded = snapshot.data ?? false;
+        return GestureDetector(
+          onTap: () {
+            // setState(() {
+            //   isExpanded = !isExpanded;
+            // });
+            weatherViewmodel.toggledExpansion();
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+            height: isExpanded ? 60 : 50,
+            width: isExpanded ? widthQ * 0.8 : 50,
+            decoration: BoxDecoration(
+              color: CustomColors.nigthBlue,
+              boxShadow: [
+                BoxShadow(
+                  color: CustomColors.white.withOpacity(0.25),
+                  blurRadius: 15,
+                  spreadRadius: 2,
+                  offset: const Offset(-10.0, -10.0),
+                ),
+                BoxShadow(
+                  color: CustomColors.black.withOpacity(0.4),
+                  blurRadius: 15,
+                  spreadRadius: 2,
+                  offset: const Offset(10.0, 10.0),
+                ),
+              ],
+              borderRadius: BorderRadius.circular(isExpanded ? 16.0 : 25.0),
+            ),
+            child: isExpanded
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: searchInput(),
+                  )
+                : const Icon(
+                    Icons.search,
+                    color: CustomColors.white,
+                  ),
+          ),
+        );
       },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-        height: isExpanded ? 60 : 50,
-        width: isExpanded ? widthQ * 0.8 : 50,
-        decoration: BoxDecoration(
-          color: CustomColors.nigthBlue,
-          boxShadow: [
-            BoxShadow(
-              color: CustomColors.white.withOpacity(0.25),
-              blurRadius: 15,
-              spreadRadius: 2,
-              offset: const Offset(-10.0, -10.0),
-            ),
-            BoxShadow(
-              color: CustomColors.black.withOpacity(0.4),
-              blurRadius: 15,
-              spreadRadius: 2,
-              offset: const Offset(10.0, 10.0),
-            ),
-          ],
-          //shape: isExpanded ? BoxShape.rectangle : BoxShape.circle,
-          borderRadius: BorderRadius.circular(isExpanded ? 16.0 : 25.0),
-        ),
-        child: isExpanded
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: searchInput(),
-              )
-            : const Icon(
-                Icons.search,
-                color: CustomColors.white,
-              ),
-      ),
     );
   }
 
@@ -533,9 +543,17 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
             textInputAction: TextInputAction.search,
             onFieldSubmitted: (value) {
               searchController.clear();
-              setState(() {
-                isExpanded = !isExpanded;
-              });
+              // setState(() {
+              //   isExpanded = !isExpanded;
+              // });
+              weatherViewmodel.toggledExpansion();
+              Navigator.pushNamed(
+                context,
+                CityView.tag,
+                arguments: CityViewArgs(
+                  cityName: searchController.text,
+                ),
+              );
             },
             decoration: const InputDecoration(
               hintText: "Pesquisar cidade",
@@ -550,9 +568,10 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
         ),
         IconButton(
           onPressed: () {
-            setState(() {
-              isExpanded = !isExpanded;
-            });
+            // setState(() {
+            //   isExpanded = !isExpanded;
+            // });
+            weatherViewmodel.toggledExpansion();
           },
           icon: const Icon(
             Icons.close_rounded,
