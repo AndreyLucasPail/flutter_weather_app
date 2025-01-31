@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                   ],
                 ),
                 Positioned(
-                  right: 4,
+                  right: 10,
                   child: popUpContainer(),
                 ),
               ],
@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
           ),
           Container(
             height: 1,
-            width: MediaQuery.of(context).size.width * 0.6,
+            width: MediaQuery.of(context).size.width * 0.7,
             color: CustomColors.white,
           ),
           Text(
@@ -485,7 +485,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
 
   Widget popUpContainer() {
     return StreamBuilder<bool>(
-      stream: weatherViewmodel.isExpandedStream,
+      stream: expandedViewmodel.isExpandedStream,
       initialData: false,
       builder: (context, snapshot) {
         bool isExpanded = snapshot.data ?? false;
@@ -494,7 +494,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
             // setState(() {
             //   isExpanded = !isExpanded;
             // });
-            weatherViewmodel.toggledExpansion();
+            expandedViewmodel.toggledExpansion();
           },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 500),
@@ -546,7 +546,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
               // setState(() {
               //   isExpanded = !isExpanded;
               // });
-              weatherViewmodel.toggledExpansion();
+              expandedViewmodel.toggledExpansion();
               Navigator.pushNamed(
                 context,
                 CityView.tag,
@@ -571,7 +571,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
             // setState(() {
             //   isExpanded = !isExpanded;
             // });
-            weatherViewmodel.toggledExpansion();
+            expandedViewmodel.toggledExpansion();
           },
           icon: const Icon(
             Icons.close_rounded,

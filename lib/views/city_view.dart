@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_weather_app/mixin/city_mixin.dart';
 import 'package:flutter_weather_app/models/current_weather_model.dart';
 import 'package:flutter_weather_app/utils/colors/custom_colors.dart';
@@ -34,19 +35,24 @@ class _CityViewState extends State<CityView> with CityMixin {
       builder: (context, snapshot) {
         if (snapshot.data == null ||
             snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         } else {
           city = widget.cityName!;
           final weather = snapshot.data;
           return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                customAppBar(),
-                const SizedBox(height: 20),
-                infoCircle(),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  customAppBar(),
+                  const SizedBox(height: 20),
+                  infoCircle(weather!),
+                ],
+              ),
             ),
           );
         }
@@ -58,7 +64,7 @@ class _CityViewState extends State<CityView> with CityMixin {
     return Row(
       children: [
         IconButton(
-          onPressed: () {},
+          onPressed: () => Navigator.pop(context),
           icon: const Icon(
             Icons.arrow_back,
             color: CustomColors.white,
@@ -68,25 +74,39 @@ class _CityViewState extends State<CityView> with CityMixin {
     );
   }
 
-  Widget infoCircle() {
+  Widget infoCircle(CurrentWeatherModel weather) {
     return Container(
-      height: 100,
-      width: 100,
+      height: 200,
+      width: 200,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: CustomColors.white,
+        color: CustomColors.nigthBlue,
         boxShadow: [
           BoxShadow(
             color: CustomColors.white.withOpacity(0.25),
             blurRadius: 15,
-            spreadRadius: 2,
+            spreadRadius: 4,
             offset: const Offset(-10.0, -10.0),
           ),
           BoxShadow(
             color: CustomColors.black.withOpacity(0.4),
             blurRadius: 15,
-            spreadRadius: 2,
+            spreadRadius: 4,
             offset: const Offset(10.0, 10.0),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          SvgPicture.asset(
+            currentClimate(weather.climate!),
+          ),
+          Text(
+            "${weather.temperature!}",
+            style: const TextStyle(
+              color: CustomColors.white,
+              fontSize: 30,
+            ),
           ),
         ],
       ),

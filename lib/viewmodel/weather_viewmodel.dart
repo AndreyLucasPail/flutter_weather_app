@@ -10,11 +10,9 @@ class WeatherViewmodel extends BlocBase {
 
   final _currentController = BehaviorSubject<CurrentWeatherModel>();
   final _byCityController = BehaviorSubject<CurrentWeatherModel>();
-  final _isExpandedController = BehaviorSubject<bool>.seeded(false);
 
   Stream<CurrentWeatherModel> get currentStream => _currentController.stream;
   Stream<CurrentWeatherModel> get byCityStream => _byCityController.stream;
-  Stream<bool> get isExpandedStream => _isExpandedController.stream;
 
   Future<void> getData() async {
     try {
@@ -45,16 +43,10 @@ class WeatherViewmodel extends BlocBase {
     }
   }
 
-  void toggledExpansion() {
-    bool current = _isExpandedController.value;
-    _isExpandedController.sink.add(!current);
-  }
-
   @override
   void dispose() {
     super.dispose();
     _currentController.close();
     _byCityController.close();
-    _isExpandedController.close();
   }
 }
