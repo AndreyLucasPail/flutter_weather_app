@@ -53,7 +53,7 @@ class ApiService {
   Future<Map<String, dynamic>> byCityRequest(String city) async {
     try {
       final String url =
-          "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey";
+          "https://api.openweathermap.org/data/2.5/weather?q=$city&units=metric&lang=pt_br&appid=$apiKey";
 
       final response = await _dio.get(url);
 

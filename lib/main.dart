@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/routes/app_routes.dart';
 import 'package:flutter_weather_app/viewmodel/expanded_viewmodel.dart';
 import 'package:flutter_weather_app/viewmodel/five_days_viewmodel.dart';
+import 'package:flutter_weather_app/viewmodel/search_viewmodel.dart';
 import 'package:flutter_weather_app/viewmodel/weather_viewmodel.dart';
 import 'package:flutter_weather_app/views/home_view.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         Bloc((i) => WeatherViewmodel()),
         Bloc((i) => FiveDaysViewmodel()),
         Bloc((i) => ExpandedViewmodel()),
+        Bloc((i) => SearchViewmodel()),
       ],
       dependencies: const [],
       child: const MaterialApp(

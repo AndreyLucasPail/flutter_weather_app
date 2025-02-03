@@ -491,9 +491,6 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
         bool isExpanded = snapshot.data ?? false;
         return GestureDetector(
           onTap: () {
-            // setState(() {
-            //   isExpanded = !isExpanded;
-            // });
             expandedViewmodel.toggledExpansion();
           },
           child: AnimatedContainer(
@@ -542,10 +539,6 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
             controller: searchController,
             textInputAction: TextInputAction.search,
             onFieldSubmitted: (value) {
-              searchController.clear();
-              // setState(() {
-              //   isExpanded = !isExpanded;
-              // });
               expandedViewmodel.toggledExpansion();
               Navigator.pushNamed(
                 context,
@@ -554,6 +547,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
                   cityName: searchController.text,
                 ),
               );
+              searchController.clear();
             },
             decoration: const InputDecoration(
               hintText: "Pesquisar cidade",
