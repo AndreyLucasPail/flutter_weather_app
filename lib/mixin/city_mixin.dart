@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 mixin CityMixin<T extends StatefulWidget> on State<T> {
+  late double widthQ = MediaQuery.of(context).size.width;
+
   String currentClimate(String climate) {
     if (climate == "Clear") {
       return "assets/sun.svg";

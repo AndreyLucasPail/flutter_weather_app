@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,7 +29,7 @@ class _CityViewState extends State<CityView> with CityMixin {
   @override
   void initState() {
     super.initState();
-    print(">>>>>>>>>>>>>>>>>>>${widget.cityName}<<<<<<<<<<<<<<<<<<<<<");
+
     searchViewmodel = BlocProvider.getBloc<SearchViewmodel>();
     searchViewmodel.getDataByCity(widget.cityName!);
   }
@@ -51,11 +52,13 @@ class _CityViewState extends State<CityView> with CityMixin {
             child: CircularProgressIndicator(),
           );
         } else {
-          // city = widget.cityName!;
           final weather = snapshot.data;
           return SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 35.0,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -74,22 +77,34 @@ class _CityViewState extends State<CityView> with CityMixin {
 
   Widget customAppBar(SearchWeatherModel searchModel) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(
             Icons.arrow_back,
             color: CustomColors.white,
+            size: 25,
           ),
         ),
+        Text(
+          searchModel.name!,
+          style: const TextStyle(
+            color: CustomColors.white,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(width: widthQ * 0.15),
       ],
     );
   }
 
   Widget infoCircle(SearchWeatherModel weather) {
     return Container(
-      height: 200,
-      width: 200,
+      padding: const EdgeInsets.all(16.0),
+      height: 250,
+      width: 250,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: CustomColors.nigthBlue,
@@ -111,19 +126,33 @@ class _CityViewState extends State<CityView> with CityMixin {
       child: Column(
         children: [
           SizedBox(
-            height: 50,
-            width: 50,
+            height: 70,
+            width: 70,
             child: SvgPicture.asset(
               currentClimate(weather.climate!),
             ),
           ),
-          Text(
-            "${weather.temperature!.toStringAsFixed(1)} C°",
-            style: const TextStyle(
-              color: CustomColors.white,
-              fontSize: 60,
-              fontWeight: FontWeight.bold,
-            ),
+          const SizedBox(height: 20),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                weather.temperature!.toStringAsFixed(0),
+                style: const TextStyle(
+                  color: CustomColors.white,
+                  fontSize: 60,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Text(
+                "°C",
+                style: TextStyle(
+                  color: CustomColors.white,
+                  fontSize: 40,
+                ),
+              ),
+            ],
           ),
         ],
       ),
