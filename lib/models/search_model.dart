@@ -43,6 +43,8 @@ class SearchWeatherModel {
   num? get tempMax => main?["temp_max"] as num;
   num? get pressure => main?["pressure"] as num;
   num? get humidity => main?["humidity"] as num;
+  num? get seaLevel => main?["sea_level"] as num;
+  num? get gnrdLevel => main?["grnd_level"];
 
   num? get windSpeed => wind?["speed"] as num;
   num? get windDirec => wind?["deg"] as num;

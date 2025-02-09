@@ -66,6 +66,10 @@ class _CityViewState extends State<CityView> with CityMixin {
                   customAppBar(weather!),
                   const SizedBox(height: 20),
                   infoCircle(weather),
+                  const SizedBox(height: 50),
+                  infoWrap(weather),
+                  const SizedBox(height: 20),
+                  bottomText(),
                 ],
               ),
             ),
@@ -77,14 +81,14 @@ class _CityViewState extends State<CityView> with CityMixin {
 
   Widget customAppBar(SearchWeatherModel searchModel) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(
             Icons.arrow_back,
             color: CustomColors.white,
-            size: 25,
+            size: 40,
           ),
         ),
         Text(
@@ -155,6 +159,73 @@ class _CityViewState extends State<CityView> with CityMixin {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget infoWrap(SearchWeatherModel weather) {
+    return Wrap(
+      spacing: 15,
+      runSpacing: 15,
+      children: [
+        infoCard(Icons.air, "${weather.windSpeed}m/s", "vento"),
+        infoCard(Icons.speed_outlined, "${weather.pressure} mb", "pressão"),
+        infoCard(Icons.invert_colors_on, "${weather.humidity}%", "Humidade"),
+        infoCard(Icons.visibility_outlined, "${weather.visibility! / 1000} Km",
+            "Visibilidade"),
+        infoCard(
+            Icons.cloud_queue_outlined, "${weather.cloudsPercent!}%", "Nuvens"),
+        infoCard(Icons.air, windDirection(weather.windDirec!),
+            "${weather.windDirec!}°"),
+      ],
+    );
+  }
+
+  Widget infoCard(IconData icon, String text, String data) {
+    return Container(
+      height: 150,
+      width: 150,
+      decoration: BoxDecoration(
+        color: CustomColors.white.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 60,
+            color: CustomColors.white,
+          ),
+          Text(
+            data,
+            style: const TextStyle(
+              color: CustomColors.white,
+              fontSize: 16,
+            ),
+          ),
+          Text(
+            text,
+            style: const TextStyle(
+              color: CustomColors.white,
+              fontSize: 20,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget bottomText() {
+    return const Padding(
+      padding: EdgeInsets.all(16.0),
+      child: AutoSizeText(
+        "© 2012 — 2025 OpenWeather ® All rights reserved",
+        style: TextStyle(
+          color: CustomColors.white,
+          fontSize: 14,
+        ),
       ),
     );
   }
