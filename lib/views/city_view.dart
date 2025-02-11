@@ -3,6 +3,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_weather_app/mixin/city_mixin.dart';
+import 'package:flutter_weather_app/models/search_five_days_model.dart';
 import 'package:flutter_weather_app/models/search_model.dart';
 import 'package:flutter_weather_app/utils/colors/custom_colors.dart';
 import 'package:flutter_weather_app/viewmodel/search_viewmodel.dart';
@@ -24,14 +25,13 @@ class CityView extends StatefulWidget {
 }
 
 class _CityViewState extends State<CityView> with CityMixin {
-  late SearchViewmodel searchViewmodel;
-
   @override
   void initState() {
     super.initState();
 
     searchViewmodel = BlocProvider.getBloc<SearchViewmodel>();
     searchViewmodel.getDataByCity(widget.cityName!);
+    searchViewmodel.getCityFiveDays(widget.cityName!);
   }
 
   @override
@@ -68,6 +68,8 @@ class _CityViewState extends State<CityView> with CityMixin {
                   infoCircle(weather),
                   const SizedBox(height: 50),
                   infoWrap(weather),
+                  const SizedBox(height: 20),
+                  fiveDaysForecast(),
                   const SizedBox(height: 20),
                   bottomText(),
                 ],
@@ -213,6 +215,100 @@ class _CityViewState extends State<CityView> with CityMixin {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget fiveDaysForecast() {
+    return StreamBuilder<SearchFiveDaysModel>(
+      stream: searchViewmodel.fiveDaysStream,
+      builder: (context, snapshot) {
+        if (snapshot.data == null) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          final fiveDays = snapshot.data;
+          final dayForecast = fiveDays!.getPerHourForecast();
+          return Column(
+            children: [
+              const Text(
+                "Previsão para os proximos 5 dias",
+                style: TextStyle(
+                  color: CustomColors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              fiveDaysInfo(dayForecast),
+            ],
+          );
+        }
+      },
+    );
+  }
+
+  Widget fiveDaysInfo(List<FiveDayForecast>? dayForecast) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        height: heightQ * 0.25,
+        child: Row(
+          children: dayForecast!.map((days) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                height: heightQ * 0.15,
+                width: 75,
+                decoration: BoxDecoration(
+                  color: CustomColors.nigthBlue,
+                  borderRadius: BorderRadius.circular(35.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: CustomColors.white.withOpacity(0.25),
+                      blurRadius: 15,
+                      spreadRadius: 2,
+                      offset: const Offset(-10.0, -10.0),
+                    ),
+                    BoxShadow(
+                      color: CustomColors.black.withOpacity(0.4),
+                      blurRadius: 15,
+                      spreadRadius: 2,
+                      offset: const Offset(10.0, 10.0),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 40,
+                      width: 30,
+                      child: SvgPicture.asset(
+                        currentClimate(days.climate!),
+                      ),
+                    ),
+                    Text(
+                      "${(days.temperature)!.toStringAsFixed(1)}°C",
+                      style: const TextStyle(
+                        color: CustomColors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      days.formatDate!,
+                      style: const TextStyle(
+                        color: CustomColors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_weather_app/viewmodel/search_viewmodel.dart';
 
 mixin CityMixin<T extends StatefulWidget> on State<T> {
   late double widthQ = MediaQuery.of(context).size.width;
   late double heightQ = MediaQuery.of(context).size.height;
+
+  late SearchViewmodel searchViewmodel;
 
   String currentClimate(String climate) {
     if (climate == "Clear") {

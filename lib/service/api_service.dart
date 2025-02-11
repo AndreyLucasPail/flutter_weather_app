@@ -67,4 +67,23 @@ class ApiService {
       return {};
     }
   }
+
+  Future<Map<String, dynamic>> cityFiveDaysRequest(String city) async {
+    try {
+      final String url =
+          "https://api.openweathermap.org/data/2.5/forecast?q=$city&units=metric&lang=pt_br&appid=$apiKey";
+      final response = await _dio.get(url);
+
+      if (response.statusCode == 200) {
+        print("Service<<<<<<<<<<<<<<<<<<<<<<<<<<<<<${response.data}");
+
+        return response.data;
+      } else {
+        throw Exception("Failed to load by city data");
+      }
+    } catch (e) {
+      print('Erro ao buscar dados de cidade: $e');
+      return {};
+    }
+  }
 }
