@@ -31,8 +31,6 @@ class SearchViewmodel extends BlocBase {
 
       final fiveDaysModel = SearchFiveDaysModel.fromJson(response);
 
-      print("viewmodel>>>>>>>>>>>>>>>>>>>$fiveDaysModel");
-
       _fiveDaysController.sink.add(fiveDaysModel);
     } catch (e) {
       _fiveDaysController.addError("Erro ao carregar dados de cidades: $e");

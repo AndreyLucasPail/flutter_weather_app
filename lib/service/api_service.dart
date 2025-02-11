@@ -75,8 +75,6 @@ class ApiService {
       final response = await _dio.get(url);
 
       if (response.statusCode == 200) {
-        print("Service<<<<<<<<<<<<<<<<<<<<<<<<<<<<<${response.data}");
-
         return response.data;
       } else {
         throw Exception("Failed to load by city data");

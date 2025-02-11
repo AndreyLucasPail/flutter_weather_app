@@ -6,7 +6,6 @@ import 'package:flutter_weather_app/models/five_days_model.dart';
 import 'package:flutter_weather_app/utils/colors/custom_colors.dart';
 import 'package:flutter_weather_app/mixin/home_mixin.dart';
 import 'package:flutter_weather_app/views/city_view.dart';
-import 'package:flutter_weather_app/widgets/animations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -249,7 +248,9 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting ||
             snapshot.data == null) {
-          return const ShimmerAnimation();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         } else if (snapshot.hasError) {
           return Center(
             child: Text(
