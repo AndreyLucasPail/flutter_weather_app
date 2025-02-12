@@ -6,6 +6,7 @@ import 'package:flutter_weather_app/viewmodel/five_days_viewmodel.dart';
 import 'package:flutter_weather_app/viewmodel/search_viewmodel.dart';
 import 'package:flutter_weather_app/viewmodel/weather_viewmodel.dart';
 import 'package:flutter_weather_app/views/home_view.dart';
+import 'package:flutter_weather_app/views/splash_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       dependencies: const [],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: HomeScreen.tag,
+        initialRoute: SplashView.tag,
         onGenerateRoute: AppRoutes.genereteRoutes,
       ),
     );

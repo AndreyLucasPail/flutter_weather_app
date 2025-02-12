@@ -20,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> with HomeMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.nigthBlue,
       body: body(),
     );
   }
